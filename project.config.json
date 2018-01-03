@@ -10,7 +10,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.7.2",
 	"appid": "wx6b210906628efefa",
-	"projectname": "music",
+	"projectname": "weixin_audio",
 	"condition": {
 		"search": {
 			"current": -1,
