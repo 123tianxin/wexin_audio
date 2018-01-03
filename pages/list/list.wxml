@@ -1,0 +1,60 @@
+ <view>
+    <swiper indicator-dots="true" autoplay="true" interval="5000">
+        <swiper-item>
+            <image src="/images/ui/swiper0.bmp"></image>
+        </swiper-item>
+        <swiper-item>
+            <image src="/images/ui/swiper1.bmp"></image>
+        </swiper-item>
+        <swiper-item>
+            <image src="/images/ui/swiper2.bmp"></image>
+        </swiper-item>
+    </swiper>
+    <view class="post-container">
+        <view class="post-author-date">
+            <image class="post-author" src="/images/avatar/1.png"></image>
+            <text class="post-date">Jau 02 2018</text>
+        </view>
+        <text class="post-title">梓夏心情</text>
+        <image  class="post-image" src="/images/ui/swiper0.bmp"></image>
+        <text class="post-content">你来过一阵子，我怀念一辈子</text>
+        <view class="post-like">
+            <image class="post-like-image" src="../../images/icon/chat.png"></image>
+            <text class="post-like-font">92</text>
+            <image class="post-like-image" src="../../images/icon/view.png"></image>
+            <text class="post-like-font">65</text>
+        </view>
+    </view>
+
+    <view class="post-container">
+        <view class="post-author-date">
+            <image class="post-author" src="/images/avatar/2.png"></image>
+            <text class="post-date">Jau 01 2018</text>
+        </view>
+        <text class="post-title">旧日时光</text>
+        <image  class="post-image" src="/images/ui/swiper1.bmp"></image>
+        <text class="post-content">你来过，我才难过</text>
+        <view class="post-like">
+            <image class="post-like-image" src="../../images/icon/chat.png"></image>
+            <text class="post-like-font">97</text>
+            <image class="post-like-image" src="../../images/icon/view.png"></image>
+            <text class="post-like-font">81</text>
+        </view>
+    </view>
+
+    <view class="post-container">
+        <view class="post-author-date">
+            <image class="post-author" src="/images/avatar/3.png"></image>
+            <text class="post-date">Dec 30 2017</text>
+        </view>
+        <text class="post-title">读给你听</text>
+        <image  class="post-image" src="/images/ui/swiper2.bmp"></image>
+        <text class="post-content">敏感的人不容易幸福</text>
+        <view class="post-like">
+            <image class="post-like-image" src="../../images/icon/chat.png"></image>
+            <text class="post-like-font">97</text>
+            <image class="post-like-image" src="../../images/icon/view.png"></image>
+            <text class="post-like-font">81</text>
+        </view>
+    </view>
+</view>

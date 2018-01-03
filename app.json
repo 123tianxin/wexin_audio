@@ -1,0 +1,33 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/list/list"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "漫漫夜听电台",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "情感",
+        "iconPath": "assets/img/today2.png",
+        "selectedIconPath": "assets/img/today.png"
+      },
+      {
+        "pagePath": "pages/list/list",
+        "text": "往期",
+        "iconPath": "assets/img/past2.png",
+        "selectedIconPath": "assets/img/past.png"
+      }
+    ],
+    "color": "#363636",
+    "backgroundColor": "#F5FFFA",
+    "selectedColor": "#ff2d55",
+    "opacity": 1
+  }
+}
