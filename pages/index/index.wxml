@@ -12,14 +12,15 @@
     <!--旋转图-->
     <view class="rotate-disk-container">
       <view class="rotate-disk {{pauseStatus === false ? 'rotate-360' : 'rotate-360-paused'}}">
-        <image class="poster" src="{{audioList[audioIndex].poster}}"></image>
+        <image class="poster" src="{{imageURL}}"></image>
       </view>
     </view>
     <!--操作-->
     <view class="title-container">
       <view class="title-left"></view>
       <view class="text">
-        <view><text class="name">{{audioList[audioIndex].name}}</text></view>
+        <view><text class="name">{{oneInfo.title}}</text></view>
+        <!-- <view><text class="name">{{audioList[audioIndex].name}}</text></view> -->
         <!--<view><text class="author">-- {{audioList[audioIndex].author}} --</text></view>-->
       </view>
       <image src="../../assets/img/list.png" class="icon-list" bindtap="bindTapList"></image>

@@ -2,8 +2,15 @@
 //获取应用实例
 import audioList from './data.js'
 var app = getApp()
+var dataBmob = require('../../utils/data_bmob.js')
+var buildURL = require('../../utils/buildURL.js')
+
 Page({
   data: {
+    dataInfo: null,
+    oneInfo: null,
+    imageURL: '',
+    audioURL: '',
     audioList: audioList,
     audioIndex: 0,
     pauseStatus: true,
@@ -13,8 +20,22 @@ Page({
     duration:0,    
   },
   onLoad: function () {
+    var that = this
     console.log('onLoad')
     console.log(this.data.audioList.length)
+    this.setData({
+      dataInfo: app.globalData.dataInfo
+    })
+    
+    dataBmob.getOneInfo(this.data.dataInfo[0], function (oneInfo){
+        that.setData({
+          oneInfo: oneInfo,
+          imageURL: buildURL.getImageURL(oneInfo.date),
+          audioURL: buildURL.getAudioURL(oneInfo.date)
+        })
+        console.log(that.data.imageURL)
+    })
+
     //  获取本地存储存储audioIndex
     var audioIndexStorage = wx.getStorageSync('audioIndex')
     console.log(audioIndexStorage)
@@ -131,7 +152,8 @@ Page({
   play() {
     let {audioList, audioIndex} = this.data
     wx.playBackgroundAudio({
-      dataUrl: audioList[audioIndex].src,
+      // dataUrl: audioList[audioIndex].src,
+      dataUrl: this.data.audioURL,
       title: audioList[audioIndex].name,
       coverImgUrl: audioList[audioIndex].poster
     })
