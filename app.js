@@ -37,7 +37,8 @@ App({
     }
   },
   globalData:{
-    userInfo:null,
-    dataInfo:null,
+    userInfo: null,
+    dataInfo: null,
+    nowIndexObjectId: '' 
   }
 })

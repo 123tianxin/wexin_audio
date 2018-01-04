@@ -16,14 +16,16 @@ Page({
     currentPosition: 0,
     duration:0,    
   },
-  onLoad: function () {
+  onLoad: function (options) {
     var that = this
     this.setData({
       dataInfo: app.globalData.dataInfo
     })
     console.log('onLoad', this.data.dataInfo)
 
-    dataBmob.getOneInfo(this.data.dataInfo[0], function (oneInfo){
+    let nowIndexObjectId = (app.globalData.nowIndexObjectId === '') ? this.data.dataInfo[0] : app.globalData.nowIndexObjectId
+    console.log("nowId:" , nowIndexObjectId)
+    dataBmob.getOneInfo(nowIndexObjectId, function (oneInfo){
         that.setData({
           oneInfo: oneInfo,
           imageURL: buildURL.getImageURL(oneInfo.date),

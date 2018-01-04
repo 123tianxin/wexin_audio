@@ -1,18 +1,34 @@
 // pages/list/list.js
+var app = getApp()
+var dataBmob = require('../../utils/data_bmob.js')
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-  
+    list_key:[],
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    let that = this
+    dataBmob.getAllInfo(function (list_content){
+      that.setData({
+        list_key: list_content
+      })
+    })
+  },
+
+  onBindTap: function (event) {
+    console.log("点击列表图片，时间触发", event.currentTarget)
+    app.globalData.nowIndexObjectId = event.currentTarget.id
+    wx.switchTab({
+      url: "/pages/index/index",
+      success: function (e) {
+        var page = getCurrentPages().pop();
+        if (page == undefined || page == null) return;
+        page.onLoad();
+      }
+    })
   },
 
   /**

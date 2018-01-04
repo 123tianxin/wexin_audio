@@ -1,4 +1,5 @@
 var Bmob = require('../utils/bmob.js')
+var buildURL = require('../utils/buildURL.js')
 
 function getAllObjectID(callback) {
   var radioData = Bmob.Object.extend("radio_data");
@@ -39,7 +40,34 @@ function getOneInfo(objectID, callback){
   });
 }
 
+function getAllInfo(callback){
+  var radioData = Bmob.Object.extend("radio_data");
+  var query = new Bmob.Query(radioData);
+  // 查询所有数据
+  query.find({
+    success: function (results) {
+      let list_content = []
+      // 循环处理查询到的数据
+      for (var i = 0; i < results.length; i++) {
+        var object = results[i];
+        let temp_content = {}
+        temp_content.objectId = object.id
+        temp_content.title = object.get('title')
+        temp_content.date = object.get('date')
+        temp_content.list_content = object.get('des')
+        temp_content.list_img = buildURL.getImageURL(temp_content.date)
+        list_content.push(temp_content)
+      }
+      callback(list_content)
+    },
+    error: function (error) {
+      console.log("查询失败: " + error.code + " " + error.message);
+    }
+  });
+}
+
 module.exports = {
   getAllObjectID: getAllObjectID,
+  getAllInfo: getAllInfo,
   getOneInfo: getOneInfo
 }
