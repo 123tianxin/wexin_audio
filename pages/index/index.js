@@ -12,7 +12,6 @@ Page({
     audioURL: '',
     audioIndex: 0,
     pauseStatus: true,
-    listShow: false,
     timer: '',
     currentPosition: 0,
     duration:0,    
@@ -81,15 +80,19 @@ Page({
         imageURL: buildURL.getImageURL(oneInfo.date),
         audioURL: buildURL.getAudioURL(oneInfo.date),
         audioIndex: audioIndexNow,
+        pauseStatus: false,
         sliderValue: 0,
         currentPosition: 0,
         duration: 0, 
       })
       setTimeout(() => {
-        if (that.data.pauseStatus === true) {
+        if (that.data.pauseStatus === false) {
           that.play()
         }
       }, 1000)
+      
+      //停止后台播放
+      wx.pauseBackgroundAudio()
       wx.setStorageSync('audioIndex', audioIndexNow)
 
       console.log(audioIndexNow, that.data.imageURL)
@@ -112,6 +115,7 @@ Page({
         imageURL: buildURL.getImageURL(oneInfo.date),
         audioURL: buildURL.getAudioURL(oneInfo.date),
         audioIndex: audioIndexNow,
+        pauseStatus: false,
         sliderValue: 0,
         currentPosition: 0,
         duration: 0,
@@ -121,6 +125,9 @@ Page({
           that.play()
         }
       }, 1000)
+
+      //停止后台播放
+      wx.pauseBackgroundAudio()
       wx.setStorageSync('audioIndex', audioIndexNow)
     })
   },
