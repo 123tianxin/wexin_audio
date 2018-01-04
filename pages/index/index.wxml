@@ -10,35 +10,33 @@
   <!--第三层：player层-->
   <view style="display: {{listShow === true ? 'none' : ''}}">
     <!--旋转图-->
-    <view class="rotate-disk-container">
+    <view class="rotate-disk-container" wx:if="{{isDetail==false}}" bindtap="exdetail">
       <view class="rotate-disk {{pauseStatus === false ? 'rotate-360' : 'rotate-360-paused'}}">
         <image class="poster" src="{{imageURL}}"></image>
       </view>
+    </view>
+    <view class="dj-introduction" bindtap="exdetail" wx:else>
+     <text selectable='false' class='introduction'>电台心声</text>
+     <text selectable='false' class='introduction'>圣诞将至, 我们开始培养你的恋爱细胞.子涵亲自授课, 请做好笔记</text>
     </view>
     <!--操作-->
     <view class="title-container">
       <view class="title-left"></view>
       <view class="text">
-        <view><text class="name">{{oneInfo.title}}</text></view>
+        <view>
+          <text class="name">{{oneInfo.title}}</text>
+        </view>
       </view>
     </view>
     <view class="slider-container">
       <text class="slider-time">{{currentPosition}}</text>
-      <slider
-          value="{{sliderValue}}"
-          bindchange="bindSliderchange"
-          activeColor="#13beec"
-          style="width: 62%;margin: 0;"
-        />
+      <slider value="{{sliderValue}}" bindchange="bindSliderchange" activeColor="#13beec" style="width: 62%;margin: 0;" />
       <text class="slider-time">{{duration}}</text>
     </view>
     <view class="operation-container">
       <image src="../../assets/img/prev.png" class="icon-prev" bindtap="bindTapPrev"></image>
-      <image
-        src="{{pauseStatus === false ? '../../assets/img/pause.png' : '../../assets/img/play.png'}}"
-        class="icon-play" bindtap="bindTapPlay"
-        >
-        </image>
+      <image src="{{pauseStatus === false ? '../../assets/img/pause.png' : '../../assets/img/play.png'}}" class="icon-play" bindtap="bindTapPlay">
+      </image>
       <image src="../../assets/img/next.png" class="icon-next" bindtap="bindTapNext"></image>
     </view>
   </view>
