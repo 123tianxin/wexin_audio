@@ -8,6 +8,7 @@ Page({
   data: {
     dataInfo: null,
     oneInfo: null,
+    isDetail:false,
     imageURL: '',
     audioURL: '',
     audioIndex: 0,
@@ -209,6 +210,15 @@ Page({
           duration: 2000
         })
       }
+    }
+  },
+  exdetail: function () {
+    console.log(this.data.isDetail)
+    if (this.data.isDetail == false) {
+      this.setData({ isDetail: true })
+    }
+    else {
+      this.setData({ isDetail: false })
     }
   }
 })
