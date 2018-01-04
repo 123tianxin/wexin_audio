@@ -64,13 +64,10 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
-.title-left{
-  width: 60rpx;
-  height: 60rpx;
-}
+ 
 .text{
   color: #fff;
   text-align: center;

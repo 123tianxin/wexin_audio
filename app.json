@@ -6,7 +6,7 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#FF0000",
     "navigationBarTitleText": "鱼乐七天电台",
     "navigationBarTextStyle": "black"
   },
@@ -26,7 +26,7 @@
       }
     ],
     "color": "#363636",
-    "backgroundColor": "#F5FFFA",
+    "backgroundColor": "#FF0000",
     "selectedColor": "#ff2d55",
     "opacity": 1
   }
