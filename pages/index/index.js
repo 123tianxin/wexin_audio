@@ -1,6 +1,5 @@
 //index.js
 //获取应用实例
-import audioList from './data.js'
 var app = getApp()
 var dataBmob = require('../../utils/data_bmob.js')
 var buildURL = require('../../utils/buildURL.js')
@@ -11,7 +10,6 @@ Page({
     oneInfo: null,
     imageURL: '',
     audioURL: '',
-    audioList: audioList,
     audioIndex: 0,
     pauseStatus: true,
     listShow: false,
@@ -21,26 +19,24 @@ Page({
   },
   onLoad: function () {
     var that = this
-    console.log('onLoad')
-    console.log(this.data.audioList.length)
     this.setData({
       dataInfo: app.globalData.dataInfo
     })
-    
+    console.log('onLoad', this.data.dataInfo)
+
     dataBmob.getOneInfo(this.data.dataInfo[0], function (oneInfo){
         that.setData({
           oneInfo: oneInfo,
           imageURL: buildURL.getImageURL(oneInfo.date),
-          audioURL: buildURL.getAudioURL(oneInfo.date)
+          audioURL: buildURL.getAudioURL(oneInfo.date),
         })
-        console.log(that.data.imageURL)
     })
 
     //  获取本地存储存储audioIndex
     var audioIndexStorage = wx.getStorageSync('audioIndex')
     console.log(audioIndexStorage)
     if (audioIndexStorage) {
-      this.setData({audioIndex: audioIndexStorage}) 
+      this.setData({ audioIndex: 0}) 
     }
   },
   onReady: function (e) {
@@ -69,8 +65,9 @@ Page({
     })
   },
   bindTapPrev: function() {
-    console.log('bindTapNext')
-    let length = this.data.audioList.length
+    console.log('bindTapPrev')
+    let that = this
+    let length = this.data.dataInfo.length
     let audioIndexPrev = this.data.audioIndex
     let audioIndexNow = audioIndexPrev
     if (audioIndexPrev === 0) {
@@ -78,23 +75,30 @@ Page({
     } else {
       audioIndexNow = audioIndexPrev - 1
     }
-    this.setData({
-      audioIndex: audioIndexNow,
-      sliderValue: 0,
-      currentPosition: 0,
-      duration:0, 
+    dataBmob.getOneInfo(this.data.dataInfo[audioIndexNow], function (oneInfo) {
+      that.setData({
+        oneInfo: oneInfo,
+        imageURL: buildURL.getImageURL(oneInfo.date),
+        audioURL: buildURL.getAudioURL(oneInfo.date),
+        audioIndex: audioIndexNow,
+        sliderValue: 0,
+        currentPosition: 0,
+        duration: 0, 
+      })
+      setTimeout(() => {
+        if (that.data.pauseStatus === true) {
+          that.play()
+        }
+      }, 1000)
+      wx.setStorageSync('audioIndex', audioIndexNow)
+
+      console.log(audioIndexNow, that.data.imageURL)
     })
-    let that = this
-    setTimeout(() => {
-      if (that.data.pauseStatus === true) {
-        that.play()
-      }
-    }, 1000)
-    wx.setStorageSync('audioIndex', audioIndexNow)
   },
   bindTapNext: function() {
     console.log('bindTapNext')
-    let length = this.data.audioList.length
+    let that = this
+    let length = this.data.dataInfo.length
     let audioIndexPrev = this.data.audioIndex
     let audioIndexNow = audioIndexPrev
     if (audioIndexPrev === length - 1) {
@@ -102,19 +106,23 @@ Page({
     } else {
       audioIndexNow = audioIndexPrev + 1
     }
-    this.setData({
-      audioIndex: audioIndexNow,
-      sliderValue: 0,
-      currentPosition: 0,
-      duration:0, 
+    dataBmob.getOneInfo(this.data.dataInfo[audioIndexNow], function (oneInfo) {
+      that.setData({
+        oneInfo: oneInfo,
+        imageURL: buildURL.getImageURL(oneInfo.date),
+        audioURL: buildURL.getAudioURL(oneInfo.date),
+        audioIndex: audioIndexNow,
+        sliderValue: 0,
+        currentPosition: 0,
+        duration: 0,
+      })
+      setTimeout(() => {
+        if (that.data.pauseStatus === false) {
+          that.play()
+        }
+      }, 1000)
+      wx.setStorageSync('audioIndex', audioIndexNow)
     })
-    let that = this
-    setTimeout(() => {
-      if (that.data.pauseStatus === false) {
-        that.play()
-      }
-    }, 1000)
-    wx.setStorageSync('audioIndex', audioIndexNow)
   },
   bindTapPlay: function() {
     console.log('bindTapPlay')
@@ -127,35 +135,12 @@ Page({
       this.setData({pauseStatus: true})
     }
   },
-  bindTapList: function(e) {
-    console.log('bindTapList')
-    console.log(e)
-    this.setData({
-      listShow: true
-    })
-  },
-  bindTapChoose: function(e) {
-    console.log('bindTapChoose')
-    console.log(e)
-    this.setData({
-      audioIndex: parseInt(e.currentTarget.id, 10),
-      listShow: false
-    })
-    let that = this
-    setTimeout(() => {
-      if (that.data.pauseStatus === false) {
-        that.play()
-      }
-    }, 1000)
-    wx.setStorageSync('audioIndex', parseInt(e.currentTarget.id, 10))
-  },
   play() {
-    let {audioList, audioIndex} = this.data
+    let {oneInfo, audioIndex} = this.data
     wx.playBackgroundAudio({
-      // dataUrl: audioList[audioIndex].src,
       dataUrl: this.data.audioURL,
-      title: audioList[audioIndex].name,
-      coverImgUrl: audioList[audioIndex].poster
+      title: oneInfo.title,
+      coverImgUrl: this.data.imageURL
     })
     let that = this
     let timer = setInterval(function() {
@@ -166,7 +151,7 @@ Page({
   setDuration(that) {
     wx.getBackgroundAudioPlayerState({
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         let {status, duration, currentPosition} = res
         if (status === 1 || status === 0) {
           that.setData({

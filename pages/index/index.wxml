@@ -2,7 +2,7 @@
 <view class="container">
   <!--第一层层：背景图背景图，高斯模糊-->
   <view class="bg">
-    <image class="poster" mode="scaleToFill" src="{{audioList[audioIndex].poster}}"></image>
+    <image class="poster" mode="scaleToFill" src="{{imageURL}}"></image>
   </view>
   <!--第二层层：灰色蒙层-->
   <view class="bg-gray">
@@ -20,7 +20,6 @@
       <view class="title-left"></view>
       <view class="text">
         <view><text class="name">{{oneInfo.title}}</text></view>
-        <!-- <view><text class="name">{{audioList[audioIndex].name}}</text></view> -->
       </view>
     </view>
     <view class="slider-container">
