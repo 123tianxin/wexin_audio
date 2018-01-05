@@ -1,7 +1,7 @@
  <view>
     <swiper indicator-dots="true" autoplay="true" interval="5000">
         <swiper-item>
-            <image src="/images/ui/swiper0.bmp"></image>
+            <image src="{{list_key[0].list_img}}"></image>
         </swiper-item>
         <swiper-item>
             <image src="/images/ui/swiper1.bmp"></image>
