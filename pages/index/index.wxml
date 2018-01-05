@@ -6,7 +6,6 @@
   </view>
   <!--第二层层：灰色蒙层-->
   <view class="bg-gray">
-  </view>
   <!--第三层：player层-->
   <view style="display: {{listShow === true ? 'none' : ''}}">
     <!--旋转图-->
@@ -39,5 +38,6 @@
       </image>
       <image src="../../assets/img/next.png" class="icon-next" bindtap="bindTapNext"></image>
     </view>
+  </view>
   </view>
 </view>

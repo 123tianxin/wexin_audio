@@ -11,10 +11,10 @@
     </block>
   </view>
      
-    <button class="welcomeBtn">
-    <view class='space'></view>
-    <text class="user-motto">{{motto}}</text>
-    <view class='space'></view>
+    <button class="welcomeBtn" bindtap='welcomeBtn'>
+      <view class='space'></view>
+      <text class="user-motto">{{motto}}</text>
+      <view class='space'></view>
     </button>
   </view>
 </view>

@@ -9,15 +9,6 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   onLoad: function () {
-
-    wx.showLoading({
-      title: '加载中',
-    })
-
-    setTimeout(function () {
-      wx.hideLoading()
-    }, 2000)
-
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -53,7 +44,7 @@ Page({
       hasUserInfo: true
     })
   },
-  clickMe:function(){
+  welcomeBtn:function(){
     wx.switchTab({
       url:"/pages/index/index"
     })
