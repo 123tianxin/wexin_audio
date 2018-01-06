@@ -14,8 +14,12 @@ Page({
     audioIndex: 0,
     pauseStatus: true,
     timer: '',
-    currentPosition: 0,
-    duration:0,    
+    duration:0,
+    minMin: '00:00',
+    maxMin: '00:00',
+    slipderValue: 0,
+    minTime: 0,
+    maxTime: 100
   },
   onLoad: function (options) {
     var that = this
@@ -46,21 +50,22 @@ Page({
     // 使用 wx.createAudioContext 获取 audio 上下文 context
     // this.audioCtx = wx.createAudioContext('audio')
   },
-  bindSliderchange: function(e) {
+  bindSliderchange: function(audio) {
     // clearInterval(this.data.timer)
-    let value = e.detail.value
+    let value = audio.detail.value
     let that = this
-    console.log(e.detail.value)
     wx.getBackgroundAudioPlayerState({
       success: function (res) {
         console.log(res)
-        let {status, duration} = res
-        if (status === 1 || status === 0) {
+        let { status, duration } = res
+        console.log("当前进度：", duration)
+        if (status === 2 || status === 1 || status === 0) {
           that.setData({
+            minMin: that.stotime(parseInt(value * that.data.duration / 100)),
             sliderValue: value
           })
           wx.seekBackgroundAudio({
-              position: value * duration / 100,
+            position: value * duration / 100,
           })
         }
       }
@@ -165,9 +170,10 @@ Page({
         let {status, duration, currentPosition} = res
         if (status === 1 || status === 0) {
           that.setData({
-            currentPosition: that.stotime(currentPosition),
-            duration: that.stotime(duration),
+            minMin: that.stotime(currentPosition),
+            maxMin: that.stotime(duration),
             sliderValue: Math.floor(currentPosition * 100 / duration),
+            duration: duration
           })
         }
       }

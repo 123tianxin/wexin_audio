@@ -28,9 +28,9 @@
       </view>
     </view>
     <view class="slider-container">
-      <text class="slider-time">{{currentPosition}}</text>
-      <slider value="{{sliderValue}}" bindchange="bindSliderchange" activeColor="#13beec" style="width: 62%;margin: 0;" />
-      <text class="slider-time">{{duration}}</text>
+      <text class="slider-time">{{minMin}}</text>
+      <slider value="{{sliderValue}}" bindchange="bindSliderchange" min="minTime" max="{{maxTime}}" activeColor="#13beec" style="width: 62%;margin: 0;" />
+      <text class="slider-time">{{maxMin}}</text>
     </view>
     <view class="operation-container">
       <image src="../../assets/img/prev.png" class="icon-prev" bindtap="bindTapPrev"></image>
