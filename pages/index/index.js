@@ -26,21 +26,20 @@ Page({
     this.setData({
       dataInfo: app.globalData.dataInfo
     })
-    console.log('onLoad', this.data.dataInfo)
+    // console.log('onLoad', this.data.dataInfo)
 
     let nowIndexObjectId = (app.globalData.nowIndexObjectId === '') ? this.data.dataInfo[0] : app.globalData.nowIndexObjectId
-    console.log("nowId:" , nowIndexObjectId)
     dataBmob.getOneInfo(nowIndexObjectId, function (oneInfo){
         that.setData({
           oneInfo: oneInfo,
           imageURL: buildURL.getImageURL(oneInfo.date),
           audioURL: buildURL.getAudioURL(oneInfo.date),
         })
+        that.initAudio()
     })
 
     //  获取本地存储存储audioIndex
     var audioIndexStorage = wx.getStorageSync('audioIndex')
-    console.log(audioIndexStorage)
     if (audioIndexStorage) {
       this.setData({ audioIndex: 0}) 
     }
@@ -49,6 +48,34 @@ Page({
     console.log('onReady')
     // 使用 wx.createAudioContext 获取 audio 上下文 context
     // this.audioCtx = wx.createAudioContext('audio')
+  },
+  initAudio(){
+    console.log('initAudio')
+    let that = this
+    wx.playBackgroundAudio({
+      dataUrl: this.data.audioURL,
+      title: this.data.oneInfo.title,
+      coverImgUrl: this.data.imageURL,
+      success: function(res){
+        wx.pauseBackgroundAudio()
+      }
+    })
+    setTimeout(function(){
+      wx.getBackgroundAudioPlayerState({
+          success: function (res) {
+            console.log(res)
+            let { status, duration, currentPosition } = res
+            if (status === 1 || status === 0) {
+              that.setData({
+                minMin: that.stotime(currentPosition),
+                maxMin: that.stotime(duration),
+                sliderValue: Math.floor(currentPosition * 100 / duration),
+                duration: duration
+              })
+            }
+          }
+        })
+    }, 1500)
   },
   bindSliderchange: function(audio) {
     // clearInterval(this.data.timer)
@@ -166,7 +193,7 @@ Page({
   setDuration(that) {
     wx.getBackgroundAudioPlayerState({
       success: function (res) {
-        // console.log(res)
+        console.log(res)
         let {status, duration, currentPosition} = res
         if (status === 1 || status === 0) {
           that.setData({
