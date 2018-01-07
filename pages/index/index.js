@@ -8,35 +8,19 @@ Page({
   data: {
     dataInfo: null,
     oneInfo: null,
-    isDetail:false,
     imageURL: '',
     audioURL: '',
-    audioIndex: 0,
-    pauseStatus: true,
-    timer: '',
-    duration:0,
     minMin: '00:00',
     maxMin: '00:00',
+    duration: 0,
+    audioIndex: 0,
     slipderValue: 0,
-    minTime: 0,
-    maxTime: 100
+    isDetail:false,
+    pauseStatus: true,
+    timer: '',
   },
   onLoad: function (options) {
-    var that = this
-    this.setData({
-      dataInfo: app.globalData.dataInfo
-    })
-    // console.log('onLoad', this.data.dataInfo)
-
-    let nowIndexObjectId = (app.globalData.nowIndexObjectId === '') ? this.data.dataInfo[0] : app.globalData.nowIndexObjectId
-    dataBmob.getOneInfo(nowIndexObjectId, function (oneInfo){
-        that.setData({
-          oneInfo: oneInfo,
-          imageURL: buildURL.getImageURL(oneInfo.date),
-          audioURL: buildURL.getAudioURL(oneInfo.date),
-        })
-        that.initAudio()
-    })
+    console.log("onLoad, index.js")
 
     //  获取本地存储存储audioIndex
     var audioIndexStorage = wx.getStorageSync('audioIndex')
@@ -44,38 +28,21 @@ Page({
       this.setData({ audioIndex: 0}) 
     }
   },
-  onReady: function (e) {
-    console.log('onReady')
-    // 使用 wx.createAudioContext 获取 audio 上下文 context
-    // this.audioCtx = wx.createAudioContext('audio')
-  },
-  initAudio(){
-    console.log('initAudio')
+  onShow: function(){
+    console.log("onShow, index.js")
+    console.log("index.js-->", app.globalData)
+
     let that = this
-    wx.playBackgroundAudio({
-      dataUrl: this.data.audioURL,
-      title: this.data.oneInfo.title,
-      coverImgUrl: this.data.imageURL,
-      success: function(res){
-        wx.pauseBackgroundAudio()
-      }
+    let { dataInfo, oneInfo, duration } = app.globalData
+    this.setData({
+      dataInfo: dataInfo,
+      oneInfo: oneInfo,
+      imageURL: buildURL.getImageURL(oneInfo.date),
+      audioURL: buildURL.getAudioURL(oneInfo.date),
+      minMin: '00:00',
+      maxMin: that.stotime(duration),
+      duration: duration,
     })
-    setTimeout(function(){
-      wx.getBackgroundAudioPlayerState({
-          success: function (res) {
-            console.log(res)
-            let { status, duration, currentPosition } = res
-            if (status === 1 || status === 0) {
-              that.setData({
-                minMin: that.stotime(currentPosition),
-                maxMin: that.stotime(duration),
-                sliderValue: Math.floor(currentPosition * 100 / duration),
-                duration: duration
-              })
-            }
-          }
-        })
-    }, 1500)
   },
   bindSliderchange: function(audio) {
     // clearInterval(this.data.timer)

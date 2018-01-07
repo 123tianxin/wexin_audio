@@ -9,6 +9,7 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   onLoad: function () {
+    console.log("onLoad, welcome.js")
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -27,14 +28,21 @@ Page({
       // 在没有 open-type=getUserInfo 版本的兼容处理
       wx.getUserInfo({
         success: res => {
-        app.globalData.userInfo = res.userInfo
-      this.setData({
-        userInfo: res.userInfo,
-        hasUserInfo: true
+          app.globalData.userInfo = res.userInfo
+          this.setData({
+            userInfo: res.userInfo,
+            hasUserInfo: true
+          })
+        }
       })
     }
-    })
-    }
+  },
+  onShow: function(){
+    console.log("onShow, welcome.js")
+    console.log("welcome.js-->", app.globalData)
+  },
+  onHide: function(){
+    console.log("onHide, welcome.js")
   },
   getUserInfo: function(e) {
     console.log(e)

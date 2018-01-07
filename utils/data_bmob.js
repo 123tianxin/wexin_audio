@@ -8,7 +8,6 @@ function getAllObjectID(callback) {
   query.find({
     success: function (results) {
       let dataInfo = []
-      console.log("共查询到 " + results.length + " 条记录");
       // 循环处理查询到的数据
       for (var i = 0; i < results.length; i++) {
         var object = results[i];
