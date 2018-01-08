@@ -13,8 +13,9 @@ Page({
     minMin: '00:00',
     maxMin: '00:00',
     duration: 0,
+    currentPosition: 0,
     audioIndex: 0,
-    slipderValue: 0,
+    sliderValue: 0,
     isDetail:false,
     pauseStatus: true,
     timer: '',
@@ -27,10 +28,6 @@ Page({
     if (audioIndexStorage) {
       this.setData({ audioIndex: 0}) 
     }
-  },
-  onShow: function(){
-    console.log("onShow, index.js")
-    console.log("index.js-->", app.globalData)
 
     let that = this
     let { dataInfo, oneInfo, duration } = app.globalData
@@ -43,31 +40,48 @@ Page({
       maxMin: that.stotime(duration),
       duration: duration,
     })
+
+    console.log("index.js-->", this.data)
+  },
+  onShow: function(){
+    console.log("onShow, index.js")
+    // console.log("index.js-->", app.globalData)
   },
   bindSliderchange: function(audio) {
-    // clearInterval(this.data.timer)
+    clearInterval(this.data.timer)
     let value = audio.detail.value
     let that = this
     wx.getBackgroundAudioPlayerState({
       success: function (res) {
         console.log(res)
-        let { status, duration } = res
-        console.log("当前进度：", duration)
+        let { status } = res
+        let duration = that.data.duration
+        console.log("当前进度：", value * duration / 100)
         if (status === 2 || status === 1 || status === 0) {
           that.setData({
-            minMin: that.stotime(parseInt(value * that.data.duration / 100)),
+            minMin: that.stotime(parseInt(value * duration / 100)),
+            currentPosition: parseInt(value * duration / 100),
             sliderValue: value
           })
-          wx.seekBackgroundAudio({
-            position: value * duration / 100,
-          })
         }
+        wx.seekBackgroundAudio({
+          position: parseInt(value * duration / 100),
+          success: function (res) {
+            console.log("success-->", res)
+          },
+          fail: function (err) {
+            console.log("fail-->", err)
+          }
+        })
       }
     })
   },
   bindTapPrev: function() {
     console.log('bindTapPrev')
     let that = this
+    that.setData({
+      minMin: "00:00"
+    })
     let length = this.data.dataInfo.length
     let audioIndexPrev = this.data.audioIndex
     let audioIndexNow = audioIndexPrev
@@ -103,6 +117,9 @@ Page({
   bindTapNext: function() {
     console.log('bindTapNext')
     let that = this
+    that.setData({
+      minMin: "00:00"
+    })
     let length = this.data.dataInfo.length
     let audioIndexPrev = this.data.audioIndex
     let audioIndexNow = audioIndexPrev
@@ -135,21 +152,28 @@ Page({
   },
   bindTapPlay: function() {
     console.log('bindTapPlay')
-    console.log(this.data.pauseStatus)
+    // console.log(this.data.pauseStatus)
     if (this.data.pauseStatus === true) {
       this.play()
       this.setData({pauseStatus: false})
     } else {
+      clearInterval(this.data.timer)
       wx.pauseBackgroundAudio()
       this.setData({pauseStatus: true})
     }
   },
   play() {
-    let {oneInfo, audioIndex} = this.data
+    let { oneInfo, audioIndex, sliderValue, duration, currentPosition } = this.data
+    console.log("play-->", this.data)
     wx.playBackgroundAudio({
       dataUrl: this.data.audioURL,
       title: oneInfo.title,
-      coverImgUrl: this.data.imageURL
+      coverImgUrl: this.data.imageURL,
+      seccess: function(){
+        wx.seekBackgroundAudio({
+          position: currentPosition,
+        })
+      }
     })
     let that = this
     let timer = setInterval(function() {

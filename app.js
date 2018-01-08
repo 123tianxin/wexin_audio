@@ -33,15 +33,16 @@ App({
         }
       }
     })
-  },
-  onShow: function(){
-    console.log("onShow")
+
     var that = this
     //通过bmob异步API获取所有ObjectID数据
     dataBmob.getAllObjectID(function (dataInfo) {
       that.globalData.dataInfo = dataInfo
       that.initOneDataInfo()
     })
+  },
+  onShow: function(){
+    console.log("onShow")
   },
   onHide: function(){
     console.log("onHide")
@@ -55,7 +56,6 @@ App({
     dataBmob.getOneInfo(nowIndexObjectId, function (oneInfo) {
       that.globalData.oneInfo = oneInfo
       that.initAudio()      //初始化播放器
-      // that.initDuration()   //获取初始化进度条的数据
     })
   },
   initAudio() {
@@ -67,61 +67,15 @@ App({
     audioManager.src = audioURL
     let timer = setInterval(function(){
       if (audioManager.duration != null && audioManager.duration != 0){
-        console.log("audioManager-->", audioManager.duration)
+        // console.log("audioManager-->", audioManager.duration)
         audioManager.pause()
         that.globalData.duration = parseInt(audioManager.duration)
         clearInterval(timer)
       }else{
-        console.log("else-->", audioManager.duration)
+        // console.log("else-->", audioManager.duration)
       }
-    }, 50)
-    
-    // wx.playBackgroundAudio({
-    //   dataUrl: buildURL.getAudioURL(oneInfo.date),
-    //   success: function(){
-    //     wx.pauseBackgroundAudio()
-    //   },
-    //   complete: function(){
-    //     wx.pauseBackgroundAudio()
-    //   }
-    // })
-    // wx.pauseBackgroundAudio()
+    }, 20)
   },
-  // initDuration() {
-  //   console.log("initDuration")
-  //   let that = this
-  //   let audioManager = wx.getBackgroundAudioManager()
-  //   audioManager.onPause(function(){
-  //     console.log("test", audioManager.duration)
-  //   })
-    // let timer = setInterval(function(){
-    //   if(audioManager.duration != null){
-    //     console.log("duration-->", audioManager.duration)
-    //     clearInterval(timer)
-    //   }else{
-    //     console.log("一直在输出：", audioManager)
-    //   }
-    // }, 100)
-    // console.log(audioManager.duration)
-    // let that = this
-    // let timer = setInterval(function(){
-    //   wx.getBackgroundAudioPlayerState({
-    //     success: function (res) {
-    //       console.log("success", res)
-    //       if ((res.status === 0) && (res.duration !== null)) {
-    //         that.globalData.duration = res.duration
-    //         clearInterval(timer)
-    //       }
-    //     },
-    //     fail: function(err){
-    //       console.log("fail", err)
-    //     },
-    //     complete: function(res){
-    //       console.log("app.js-->", res)
-    //     }
-    //   })
-    // }, 200)
-  // },
   getUserInfo:function(cb){
     var that = this
     if(this.globalData.userInfo){

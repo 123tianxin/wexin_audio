@@ -39,7 +39,7 @@ Page({
   },
   onShow: function(){
     console.log("onShow, welcome.js")
-    console.log("welcome.js-->", app.globalData)
+    // console.log("welcome.js-->", app.globalData)
   },
   onHide: function(){
     console.log("onHide, welcome.js")
