@@ -48,7 +48,7 @@ Page({
     // console.log("index.js-->", app.globalData)
   },
   bindSliderchange: function(audio) {
-    clearInterval(this.data.timer)
+    // clearInterval(this.data.timer)
     let value = audio.detail.value
     let that = this
     wx.getBackgroundAudioPlayerState({
@@ -184,7 +184,7 @@ Page({
   setDuration(that) {
     wx.getBackgroundAudioPlayerState({
       success: function (res) {
-        console.log(res)
+        console.log("setDuration-->", res)
         let {status, duration, currentPosition} = res
         if (status === 1 || status === 0) {
           that.setData({
