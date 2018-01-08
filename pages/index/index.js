@@ -80,7 +80,11 @@ Page({
     console.log('bindTapPrev')
     let that = this
     that.setData({
-      minMin: "00:00"
+      pauseStatus: false,
+      sliderValue: 0,
+      currentPosition: 0,
+      duration: 0, 
+      minMin: "00:00",
     })
     let length = this.data.dataInfo.length
     let audioIndexPrev = this.data.audioIndex
@@ -96,10 +100,6 @@ Page({
         imageURL: buildURL.getImageURL(oneInfo.date),
         audioURL: buildURL.getAudioURL(oneInfo.date),
         audioIndex: audioIndexNow,
-        pauseStatus: false,
-        sliderValue: 0,
-        currentPosition: 0,
-        duration: 0, 
       })
       setTimeout(() => {
         if (that.data.pauseStatus === false) {
@@ -117,8 +117,13 @@ Page({
   bindTapNext: function() {
     console.log('bindTapNext')
     let that = this
+    clearInterval(this.data.timer)
     that.setData({
-      minMin: "00:00"
+      pauseStatus: false,
+      sliderValue: 0,
+      currentPosition: 0,
+      duration: 0,
+      minMin: "00:00",
     })
     let length = this.data.dataInfo.length
     let audioIndexPrev = this.data.audioIndex

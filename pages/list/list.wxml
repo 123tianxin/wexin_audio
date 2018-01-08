@@ -1,24 +1,19 @@
+ <import src="list-template/list-template.wxml"/>
  <view>
     <swiper indicator-dots="true" autoplay="true" interval="5000">
         <swiper-item>
-            <image src="/images/ui/001.png"></image>
+            <image src="http://118.89.63.139/wangsg/carousels/001.png"></image>
         </swiper-item>
         <swiper-item>
-            <image src="/images/ui/002.png"></image>
+            <image src="http://118.89.63.139/wangsg/carousels/002.png"></image>
         </swiper-item>
         <swiper-item>
-            <image src="/images/ui/003.png"></image>
+            <image src="http://118.89.63.139/wangsg/carousels/003.png"></image>
         </swiper-item>
     </swiper>
     
     <block wx:for="{{list_key}}" wx:for-item="item" wx:key="date" wx:for-index="index">
-      <view  class="post-container" >
-          <text class="post-title">{{item.title}}<text class="post-date">{{item.date}}</text></text>
-          <view id="{{item.objectId}}" bindtap="onBindTap">
-            <image  class="post-image" src="{{item.list_img}}"></image>
-          </view>
-          <text class="post-content">{{item.list_content}}</text>
-      </view>
+      <template is="listItem" data="{{...item}}"/>
    </block>
    
 </view>

@@ -1,0 +1,11 @@
+<template name="listItem">
+  <view class="bgc">
+    <view class="post-container">
+      <view id="{{objectId}}" bindtap="onBindTap">
+        <image class="post-image" src="{{list_img}}"></image>
+      </view>
+      <text class="post-title" bindtap="onBindTap">{{title}}<text class="post-date">{{date}}</text></text>
+      <text class="post-content">{{list_content}}</text>
+    </view>
+  </view>
+</template>
